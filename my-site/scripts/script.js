@@ -5,6 +5,7 @@ var tbAppMod = angular.module('tbApp', ['ngRoute']);
 
 // Configure the routes
 tbAppMod.config(function($routeProvider) {
+// tbAppMod.config(function($routeProvider, $locationProvider) {
   $routeProvider
 
   .when('/', {
@@ -15,6 +16,16 @@ tbAppMod.config(function($routeProvider) {
   .when('/about', {
   	templateUrl: 'pages/about.html',
   	controller: 'aboutController'
+  })
+  
+  .when('/jsonComparator', {
+  	templateUrl: 'pages/jsonComparator.html',
+  	controller: 'jsonComparatorController'
+  })
+  
+  .when('/tideChart', {
+  	templateUrl: 'pages/tideChart.html',
+  	controller: 'tideChartController'
   })
   
   .when('/contact', {
@@ -32,7 +43,15 @@ tbAppMod.controller('mainController', function($scope) {
 });
 
 tbAppMod.controller('aboutController', function($scope) {
-  $scope.message = 'about page message';
+  $scope.message = 'Hello, I am tbisiar and this is my portfolio.';
+});
+
+tbAppMod.controller('jsonComparatorController', function($scope) {
+  $scope.message = 'This is an example for an AngularJS front end.';
+});
+
+tbAppMod.controller('tideChartController', function($scope) {
+  $scope.message = 'This is an example for a JQuery GUI to display tide at a specified location.';
 });
 
 tbAppMod.controller('contactController', function($scope) {
