@@ -39,21 +39,21 @@ tbAppMod.config(function($routeProvider) {
 
 // Initialize the controller
 tbAppMod.controller('mainController', function($scope) {
-  $scope.message = 'initial scope message...';
-});
-
-tbAppMod.controller('aboutController', function($scope) {
   $scope.message = 'Hello, I am tbisiar and this is my portfolio.';
 });
 
+tbAppMod.controller('aboutController', function($scope) {
+  $scope.message = 'Let me tell you a little about myself';
+});
+
 tbAppMod.controller('jsonComparatorController', function($scope) {
-  $scope.message = 'This is an example for an AngularJS front end.';
+  $scope.message = 'An example for an AngularJS front end.';
 });
 
 tbAppMod.controller('tideChartController', function($scope) {
-  $scope.message = 'This is an example for a JQuery GUI to display tide at a specified location.';
+  $scope.message = 'An example for a JQuery GUI to display tide at a specified location.';
 });
 
 tbAppMod.controller('contactController', function($scope) {
-  $scope.message = 'contact page message';
+  $scope.message = 'Contact ME!';
 });
