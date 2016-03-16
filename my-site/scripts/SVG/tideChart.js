@@ -44,4 +44,9 @@ var tideChart = function() {
 
     svg.appendChild(line);
   }
+
+
+  // Display coordinates
+  var SVGmouseTip = d3.select("g.tooltip.mouse");
 }
+

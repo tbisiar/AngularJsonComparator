@@ -6,14 +6,19 @@ body {
   text-align: center;
 }
 
-div.tideChartDiv {
-    position: absolute;
-    left: 0;
-    right: 0;
+.tideChart {
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
-div.verticalSpacingForTideChartDiv {
-	display: block;
-	height: 200px;
-	width: 100%;
+div.verticalSpacingForTideChart {
+  display: block;
+  height: 230px;
+  width: 100%;
+}
+
+svg {
+  padding: 0px 0px 0px 0px;
+  background: #bada55;
 }
