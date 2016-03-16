@@ -7,11 +7,15 @@
         <p class="lead">
           <br>  You can contact me any number of ways, but my preference if you are here is for you to send me an email via the form below.
 
-          <form>
-
+          <!-- this form is based upon https://scotch.io/tutorials/easy-angularjs-forms-with-angular-formly -->
+          <form novalidate>
+          	<formly-form model="vm.contact" fields="vm.contactFields" form="vm.contactForm">
+          	  <button type="submit" class="btn btn-primary" ng-diabled="vm.contactForm.$invalid">Submit</button>
+          	</formly-form>
           </form>
-          
+
         </p>
       </div>
     </div>
   </div>
+  <script src=

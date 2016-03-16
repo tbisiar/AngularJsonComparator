@@ -1,5 +1,8 @@
 // script.js
 
+// Let's do this in strict mode to encourage good habits :)
+"use strict";
+
 // Initialize the angular module
 var tbAppMod = angular.module('tbApp', ['ngRoute']);
 
@@ -52,6 +55,7 @@ tbAppMod.controller('jsonComparatorController', function($scope) {
 
 tbAppMod.controller('tideChartController', function($scope) {
   $scope.message = 'An example for a JQuery GUI to display tide at a specified location.';
+  tideChart();
 });
 
 tbAppMod.controller('contactController', function($scope) {

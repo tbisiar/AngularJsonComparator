@@ -5,3 +5,15 @@ body {
   padding: 40px 15px;
   text-align: center;
 }
+
+div.tideChartDiv {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+div.verticalSpacingForTideChartDiv {
+	display: block;
+	height: 200px;
+	width: 100%;
+}

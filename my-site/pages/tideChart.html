@@ -1,4 +1,5 @@
 <!-- tideChart.html -->
+
   <div class="jumbotron text-center">
     <h1>Tide Chart</h1>
     <div class="container">
@@ -8,5 +9,22 @@
         <br>  I am retrieving this data via calls against the <a href="http://www.linz.govt.nz/data/linz-data-service">LINZ</a> service for tide information.
         </p>
       </div>
+
+      <div id="svgTest" class="tideChartDiv">
+        <svg width="100%" height="200" viewbox="0 0 600 900" preserveAspectRatio="none"version="1.1" xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink">
+          <!-- y-axis -->
+          <line x1="314" y1="0" x2="314" y2="1000" style="stroke:black;stroke-width:1"/>
+          <!-- x-axis 
+          <line x1="0" y1="500" x2="628" y2="500" style="stroke:black;stroke-width:1"/>-->
+
+        </svg>
+
+      </div> <!-- /svgTest -->
+      <div class="verticalSpacingForTideChartDiv"></div>
+
+
     </div>
+
+
   </div>
