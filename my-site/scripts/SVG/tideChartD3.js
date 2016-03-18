@@ -6,7 +6,7 @@ var tideChartD3 = function(tidesData){
   // var tidesData = [-0.91299251927959, 1.0049121683629985,-0.27793326004093283, 0.07051110184971858,-0.9679999715685375, 1.1495536133887616];
   var dataLength = tidesData.length;
   var width = 800;
-  var widthSegment = (width/dataLength);
+  var widthSegment = (width/(dataLength-1));
   var height = 500;
   var multiplier = 150;
   var lineData = [ { "x": 0, "y": 500} ];
@@ -14,15 +14,6 @@ var tideChartD3 = function(tidesData){
   for (i=0; i<dataLength; i++) {
     lineData.push( { "x": widthSegment*i, "y": tidesData[i] + " "} );
   }
-
-  // var lineData = [ { "x": 0,              "y": 500}, 
-  //                  { "x": 0,              "y": tidesData[0]},
-  //                  { "x": widthSegment,   "y": tidesData[1]},
-  //                  { "x": widthSegment*2, "y": tidesData[2]},
-  //                  { "x": widthSegment*3, "y": tidesData[3]},
-  //                  { "x": widthSegment*4, "y": tidesData[4]},
-  //                  { "x": widthSegment*5, "y": tidesData[5]}
-  //                ];
 
   var svgContainer = d3.select("div#svgTestD3")
                        .append("svg")
@@ -41,7 +32,7 @@ var tideChartD3 = function(tidesData){
 
   var circleAttributes = circles
                          .attr("cx", function(d, i){
-                           return (i) * (width / 5);
+                           return (i) * (widthSegment);
                          })
                          .attr("cy", function (d) {
                            d = (d * multiplier) + (height/2);
@@ -50,10 +41,11 @@ var tideChartD3 = function(tidesData){
                          .attr("r", 20)
                          .style("fill", "red");
 
-  // var line = d3.svg.line();
-
   var lineFunction = d3.svg.line()
-                           .x(function(d) { return d.x; })
+                           .x(function(d) { 
+                             d = d.x; 
+                             return d;
+                           })
                            .y(function(d) {
                              d = (d.y * multiplier) + (height/2);
                              return d;
@@ -63,19 +55,102 @@ var tideChartD3 = function(tidesData){
   var lineAttributes = svgContainer.append("path")
                                    .attr('d', lineFunction(lineData))
                                    .attr("fill", "#eee")
-                                   .attr("stroke", "none")
-                                   .attr("stroke-width", 2);
+                                   .attr("stroke", "blue")
+                                   .attr("stroke-width", 1);
 
-// add tooltip
-  // var tooltip = d3.select("body")
-  //                 .append("div")
-  //                 .style("position", "absolute")
-  //                 .style("z-index", "10")
-  //                 .style("visibility", "hidden")
-  //                 .text("Initial Tooltip Text");
+  var coords = d3.select("div#svgTestD3")
+                    .append("text")
+                    .attr('id', 'xCoord')
+                    .attr('x', '110')
+                    .attr('y', '115');
 
-  // d3.select("svgTestD3 svg")
-  //   .on("mouseover", function(){return tooltip.style("visibility", "visible");})
-  //   .on("mousemove", function(){ return tolltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
-  //   .on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+  // $(document).ready(function(){
+  //     $('[data-toggle="tooltip"]').tooltip(); 
+  // });
+
+            var IE = document.all?true:false
+
+
+            if (!IE) document.captureEvents(Event.MOUSEMOVE)
+
+
+            document.onmousemove = getMouseXY;
+
+
+            var tempX = 0
+            var tempY = 0
+
+
+
+            function getMouseXY(e) {
+                if (IE) { 
+
+                tempX = event.clientX + document.body.scrollLeft
+                tempY = event.clientY + document.body.scrollTop
+                } 
+                else 
+                {  
+                 tempX = e.pageX
+                 tempY = e.pageY
+                }  
+
+
+                // document.Show.MouseX.value = tempX
+                // document.Show.MouseY.value = tempY
+                 
+                coords.text(function(d) { return getSvgCoords(tempX, tempY)});
+
+                return true
+            }
+
+
+
+  function getSvgCoords(origX, origY) {
+
+    var svgDiv = document.getElementById("svgTestD3");
+    var svgEl = svgDiv.getElementsByTagName("svg")[0];
+
+    var svgViewBox = svgEl.getAttribute("viewBox");
+    var svgViewBoxString = new String(svgViewBox);
+    var viewBox = svgViewBoxString.split(' ');
+    var ulCorner = [ viewBox[0], viewBox[1] ];
+    var lrCorner = [ viewBox[0] + viewBox[2], viewBox[1] + viewBox[3] ];
+
+    var pixWidth = getElementWidth(svgEl);
+    var pixHeight = svgEl.getAttribute("height");
+
+    var pixelWidthRatio = viewBox[2] / pixWidth;
+    var pixelHeightRatio = viewBox[3] / pixHeight;
+
+    // var rect = svgEl.getBoundingClientRect();
+    // console.log(rect.top, rect.right, rect.bottom, rect.left);
+    var offset = getElementOffset( svgEl );
+    var offsetX = offset.left;
+    var offsetY = offset.top;
+
+    var convertedX = ( origX - offsetX ) * pixelWidthRatio;
+    var convertedY = ( origY - offsetY ) * pixelHeightRatio;
+
+    return [ convertedX, convertedY ];
+  }
+
+  function getElementOffset( el ) {
+    var _x = 0;
+    var _y = 0;
+    while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+        _x += el.offsetLeft - el.scrollLeft;
+        _y += el.offsetTop - el.scrollTop;
+        el = el.offsetParent;
+    }
+    return { top: _y, left: _x };
+  }
+  
+
+  function getElementWidth( el ) {
+    var width = 0;
+    if( el && !isNaN( el.clientWidth )) {
+      width += el.clientWidth;
+    }
+    return width;
+  }
 }
