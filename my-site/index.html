@@ -64,9 +64,10 @@
 
       </div>
 
+      <!-- load angular via local -->
+      <script src="scripts/AngularJS/1.5.0/angular.min.js"></script>
 
-      <!-- load angular and angular route via CDN -->
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+      <!-- load angular route via CDN -->
       <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
       <script>window.jQuery || document.write('<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"><\/script>')</script>
@@ -83,14 +84,10 @@
         });
       </script>
 
-      <!-- tideChart script -->
-      <script src="scripts/SVG/tideChart.js"></script>
+      <!-- tideChart scripts -->
+      <!--script src="scripts/SVG/tideChart.js"></script-->
       <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
       <script src="scripts/SVG/tideChartD3.js"></script>
-
-      <form name="Show">
-            <input type="text" name="MouseX" value="0" size="4"> X<br>
-            <input type="text" name="MouseY" value="0" size="4"> Y<br>
-      </form>
+      <script src="scripts/SVG/svgCoordDisplay.js"></script>
     </body>
   </html>
