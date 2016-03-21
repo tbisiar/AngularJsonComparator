@@ -3,12 +3,12 @@ var tideChartD3 = function(tidesData){
 
   var timeToMinutes = function( timeString ) {
     var splitTime = timeString.split(":");
-    var minutes = parseInt( splitTime[0] * 60 + splitTime[1] );
+    var minutes = parseInt( splitTime[0] ) * 60 + parseInt( splitTime[1] );
     return minutes;
   };
 
   var tideDepthToCm = function( depth ) {
-    return depth * multiplier + height / 2;
+    return height - depth * multiplier;
   };
   // var svgContainer = document.getElementById('svgTestD3').children[0];
 
@@ -17,12 +17,15 @@ var tideChartD3 = function(tidesData){
   var width = 1440;
   var height = 500;
   var multiplier = 100;
-  var lineData = [ { "x": 0, "y": 500} ];
+  var lineData = [ { "x": 0, "y": 0} ];
 
   for (i=0; i<dataLength; i++) {
     var minutes = timeToMinutes( tidesData[i].x );
     var tideHeight = tideDepthToCm( tidesData[i].y );
     lineData.push( { "x": minutes, "y": tideHeight} );
+    if(lineData.length > dataLength) {
+      lineData.push( { "x" : minutes, "y": 0});
+    }
   }
 
   var svgContainer = d3.select("div#svgTestD3")
@@ -42,10 +45,12 @@ var tideChartD3 = function(tidesData){
 
   var circleAttributes = circles
                          .attr("cx", function(d){
-                           return timeToMinutes( d.x );
+                           var xVar = timeToMinutes( d.x );
+                           return xVar;
                          })
                          .attr("cy", function (d) {
-                           return tideDepthToCm( d.y );
+                           var yVar = tideDepthToCm( d.y );;
+                           return yVar;
                          })
                          .attr("r", 20)
                          .style("fill", "red");

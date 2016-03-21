@@ -2,6 +2,9 @@
 // Script for displaying coordinates of SVG element
 var displayCoords = function( coordElementName ) {
 
+  var timeSpan = 60;
+  var heightMultipler = 100;
+  var maxHeight = 500;
   var coords = d3.select( '#' + coordElementName );//document.getElementById( coordElementName );
   // var coordsText = coords.getElementsByTagName( 'text' )[0];
 
@@ -34,57 +37,63 @@ var displayCoords = function( coordElementName ) {
 
   	// Get the svg element, assuming it is first item in div
     var svgDiv = document.getElementById( 'svgTestD3' );
-    var svgEl = svgDiv.getElementsByTagName( 'svg' )[0];
 
-    var viewBox = new String( svgEl.getAttribute( 'viewBox' ) ).split( ' ' );
+    if(svgDiv) {
+      var svgEl = svgDiv.getElementsByTagName( 'svg' )[0];
 
-    var rect = svgEl.getBoundingClientRect();
-    var offsetX = rect.left;
-    var offsetY = rect.top;
+      var viewBox = new String( svgEl.getAttribute( 'viewBox' ) ).split( ' ' );
 
-    var pixWidth = getElementWidth(svgEl);
-    var pixHeight = getElementHeight(svgEl);
+      var rect = svgEl.getBoundingClientRect();
+      var offsetX = rect.left;
+      var offsetY = rect.top;
 
-    var pixelWidthRatio = viewBox[2] / pixWidth;
-    var pixelHeightRatio = viewBox[3] / pixHeight;
+      var pixWidth = getElementWidth(svgEl);
+      var pixHeight = getElementHeight(svgEl);
 
-    // var offset = getElementOffset( svgEl );
-    // var offsetX = offset.left;
-    // var offsetY = offset.top;
+      var pixelWidthRatio = viewBox[2] / pixWidth;
+      var pixelHeightRatio = viewBox[3] / pixHeight;
 
-    var convertedX = ( origX - offsetX ) * pixelWidthRatio;
-    var convertedY = ( origY - offsetY ) * pixelHeightRatio;
+      // var offset = getElementOffset( svgEl );
+      // var offsetX = offset.left;
+      // var offsetY = offset.top;
 
-    return [ convertedX, convertedY ];
-  }
+      var convertedX = (origX - offsetX) * pixelWidthRatio;
+      var convertedY = (origY - offsetY) * pixelHeightRatio;
 
+      dateTimeX = Math.floor(convertedX / timeSpan) + ":" + Math.floor(convertedX % timeSpan);
+      depthY = (maxHeight - Math.floor(convertedY * heightMultipler) / heightMultipler) + " meters"
 
-  // function getElementOffset( el ) {
-  //   var _x = 0;
-  //   var _y = 0;
-  //   while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
-  //       _x += el.offsetLeft - el.scrollLeft;
-  //       _y += el.offsetTop - el.scrollTop;
-  //       el = el.offsetParent;
-  //   }
-  //   return { top: _y, left: _x };
-  // }
-
-
-  function getElementWidth( el ) {
-    var width = 0;
-    if( el && !isNaN( el.clientWidth )) {
-      width += el.clientWidth;
+      return [ dateTimeX, depthY ];
     }
-    return width;
-  }
 
 
-  function getElementHeight( el ) {
-    var height = 0;
-    if( el && !isNaN( el.clientHeight )) {
-      height += el.clientHeight;
+    // function getElementOffset( el ) {
+    //   var _x = 0;
+    //   var _y = 0;
+    //   while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+    //       _x += el.offsetLeft - el.scrollLeft;
+    //       _y += el.offsetTop - el.scrollTop;
+    //       el = el.offsetParent;
+    //   }
+    //   return { top: _y, left: _x };
+    // }
+
+
+    function getElementWidth( el ) {
+      var width = 0;
+      if( el && !isNaN( el.clientWidth )) {
+        width += el.clientWidth;
+      }
+      return width;
     }
-    return height;
+
+
+    function getElementHeight( el ) {
+      var height = 0;
+      if( el && !isNaN( el.clientHeight )) {
+        height += el.clientHeight;
+      }
+      return height;
+    }
   }
 }
